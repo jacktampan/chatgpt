@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   const id = chatId || nanoid();
 
   const result = streamText({
-    model: openai('gpt-3.5-turbo'),
+    model: openai('gpt-4o'),
     messages,
     onCompletion: async (completion) => {
       const updatedMessages = [...messages, { role: 'assistant', content: completion }];

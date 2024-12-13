@@ -1,15 +1,20 @@
 import { kv } from '@vercel/kv';
 
+const kvStore = kv({
+  url: process.env.KV_REST_API_URL,
+  token: process.env.KV_REST_API_TOKEN,
+});
+
 export async function saveChat(chatId: string, messages: any[]) {
-  await kv.set(chatId, JSON.stringify(messages));
+  await kvStore.set(chatId, JSON.stringify(messages));
 }
 
 export async function loadChat(chatId: string): Promise<any[]> {
-  const data = await kv.get<string>(chatId);
+  const data = await kvStore.get<string>(chatId);
   return data ? JSON.parse(data) : [];
 }
 
 export async function deleteChat(chatId: string) {
-  await kv.del(chatId);
+  await kvStore.del(chatId);
 }
 
