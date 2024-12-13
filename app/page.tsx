@@ -8,10 +8,11 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Trash2 } from 'lucide-react'
+import { toast } from "@/components/ui/use-toast"
 
 export default function Chat() {
   const [chatId, setChatId] = useState<string | null>(null)
-  const { messages, input, handleInputChange, handleSubmit, setMessages } = useChat()
+  const { messages, input, handleInputChange, handleSubmit, setMessages, error } = useChat()
   const [isTyping, setIsTyping] = useState(false)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
 
@@ -28,6 +29,24 @@ export default function Chat() {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight
     }
   }, [messages])
+
+  useEffect(() => {
+    if (error) {
+      if (error.message.includes('Rate limit exceeded')) {
+        toast({
+          title: "Rate Limit Exceeded",
+          description: "Please try again in a minute.",
+          variant: "destructive",
+        })
+      } else {
+        toast({
+          title: "An error occurred",
+          description: error.message,
+          variant: "destructive",
+        })
+      }
+    }
+  }, [error])
 
   const fetchChatHistory = async (id: string) => {
     const response = await fetch(`/api/chat?chatId=${id}`)
@@ -74,7 +93,7 @@ export default function Chat() {
       <Card className="w-full max-w-2xl h-[80vh] flex flex-col">
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle>Memory Chat</CardTitle>
+            <CardTitle>Memory Chat (GPT-4)</CardTitle>
             <Button
               variant="outline"
               size="icon"

@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.0.0",
-    "@vercel/kv": "^0.2.1",
+    "@vercel/edge-config": "^0.2.1",
     "ai": "^2.1.28",
     "lucide-react": "^0.258.0",
     "nanoid": "^4.0.2",
