@@ -1,0 +1,10 @@
+{
+  "kv": [
+    {
+      "binding": "KV_BINDING",
+      "databaseName": "memory-chat",
+      "region": "auto"
+    }
+  ]
+}
+
